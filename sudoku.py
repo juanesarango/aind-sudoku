@@ -2,10 +2,10 @@ rows = 'ABCDEFGHI'
 cols = '123456789'
 
 # Easy sudoku
-grid = '..3.2.6..9..3.5..1..18.64....81.29..7.......8..67.82....26.95..8..2.3..9..5.1.3..'
+grid3 = '..3.2.6..9..3.5..1..18.64....81.29..7.......8..67.82....26.95..8..2.3..9..5.1.3..'
 
 # Random sudoku
-grid = '53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79'
+grid2 = '53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79'
 
 # Hard sudoku
 grid = '4.....8.5.3..........7......2.....6.....8.4......1.......6.3.7.5..2.....1.4......'
@@ -175,7 +175,21 @@ def find_better_box(sudoku_dict):
 
 
 def naked_twins(sudoku_dict):
-    pass
+    for unit in unitlist:
+        twin_candidates = [box for box in unit if len(sudoku_dict[box]) == 2]
+        twins = [a for i, a in enumerate(twin_candidates) for j, b in enumerate(twin_candidates) if sudoku_dict[a] == sudoku_dict[b] and i != j] # noqa
+        if len(twins):
+            print('Twins:', twins)
+        for twin in twins:
+            value = sudoku_dict[twin]
+            print('The twins are:', value)
+            for box in unit:
+                if sudoku_dict[box] != value:
+                    for digit in value:
+                        # print('Check in ', box, ' to replace ', digit)
+                        sudoku_dict[box] = sudoku_dict[box].replace(digit, '')
+                        # print('New Value is ', sudoku_dict[box], '\n')
+    return sudoku_dict
 
 
 # Metodo #1 eliminar hasta que solo quede cada box con 1 número
